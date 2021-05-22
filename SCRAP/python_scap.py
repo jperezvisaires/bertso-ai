@@ -24,14 +24,28 @@ master_hiztegia = eskuratu_doinuen_metadatuak()
 #%%
 
 response = requests.get(doinutegia_page)
+print(response)
 
 #%%
 
 soup = BeautifulSoup(response.text, "html.parser")
+print(soup.prettify())
 
 #%% 
 
-audio_files = soup.findAll('audio')
+h4 = soup.findAll('h4')
+doinu_link = h4[1].find('a')
+doinu_link = doinu_link.get('href')
+
+doinu_response = requests.get(doinu_link)
+doinu_parsed = BeautifulSoup(doinu_response.text, "html.parser")
+dd = doinu_parsed.findAll('dd')
+title = dd[0].string
+print(title)
+
+dl_horizontal = doinu_parsed.findAll('dl', ["dl-horizontal"])
+for span in dl_horizontal[-1].find_all('span'):
+    print(span.string)
 
 #%%
 
