@@ -1,18 +1,24 @@
+# System modules.
 import string
 
-import matplotlib.pyplot as plt
+# 3rd party modules.
 import mido
 import numpy as np
+import matplotlib.pyplot as plt
 
 
 def msg2dict(msg):
-    result = dict()
+    result = {}
+
     if "note_on" in msg:
         on_ = True
+
     elif "note_off" in msg:
         on_ = False
+
     else:
         on_ = None
+
     result["time"] = int(
         msg[msg.rfind("time") :]
         .split(" ")[0]
@@ -21,6 +27,7 @@ def msg2dict(msg):
     )
 
     if on_ is not None:
+
         for k in ["note", "velocity"]:
             result[k] = int(
                 msg[msg.rfind(k) :]
@@ -28,14 +35,17 @@ def msg2dict(msg):
                 .split("=")[1]
                 .translate(str.maketrans({a: None for a in string.punctuation}))
             )
+
     return [result, on_]
 
 
 def switch_note(last_state, note, velocity, on_=True):
     # piano has 88 notes, corresponding to note id 21 to 108, any note out of this range will be ignored
     result = [0] * 88 if last_state is None else last_state.copy()
+
     if 21 <= note <= 108:
         result[note - 21] = velocity if on_ else 0
+
     return result
 
 
@@ -85,15 +95,20 @@ def mid2arry(mid, min_msg_pct=0.1):
     return all_arys[min(ends) : max(ends)]
 
 
+def plot_midi(result_array):
+    plt.plot(
+        range(result_array.shape[0]),
+        np.multiply(np.where(result_array > 0, 1, 0), range(1, 89)),
+        marker=".",
+        markersize=1,
+        linestyle="",
+    )
+    plt.show()
+
+
 mid = mido.MidiFile("doinu.mid", clip=True)
 print("Number of tracks: ", len(mid.tracks))
 result_array = mid2arry(mid)
-print(result_array)
-plt.plot(
-    range(result_array.shape[0]),
-    np.multiply(np.where(result_array > 0, 1, 0), range(1, 89)),
-    marker=".",
-    markersize=1,
-    linestyle="",
-)
-plt.show()
+print(result_array.shape)
+# plot_midi(result_array)
+
