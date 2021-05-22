@@ -106,9 +106,9 @@ def plot_midi(result_array):
     plt.show()
 
 
-mid = mido.MidiFile("doinu.mid", clip=True)
-print("Number of tracks: ", len(mid.tracks))
-result_array = mid2arry(mid)
-print(result_array.shape)
-# plot_midi(result_array)
+# mid = mido.MidiFile("doinu.mid", clip=True)
+# print("Number of tracks: ", len(mid.tracks))
+# result_array = mid2arry(mid)
+# print(result_array.shape)
+# # plot_midi(result_array)
 
