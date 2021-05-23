@@ -10,6 +10,9 @@ from bs4 import BeautifulSoup
 import requests
 import urllib.request
 import time
+import functools
+
+
 
 def eskuratu_doinuen_metadatuak():
     
@@ -25,7 +28,7 @@ def eskuratu_doinuen_metadatuak():
         doinutegia_page = base_doinu_url + str(url_number)
         
         print('url number is:', url_number)
-        time.sleep(2)
+        time.sleep(1)
         
         response = requests.get(doinutegia_page)
 
@@ -34,6 +37,10 @@ def eskuratu_doinuen_metadatuak():
         page_headers = soup.findAll('h4')
         
         doinu_hiztegia = list(map(eskuratu_doinu_urlko_soinulinkak, page_headers))
+        
+        doinu_hiztegia = [hiztegia for hiztegia in doinu_hiztegia if type(hiztegia) is dict]
+        # First one is set, rest is dict, remove first (or the set's)
+        # functools.reduce(lambda a,b: a.append(b), doinu_hiztegia)
         
         master_doinutegi_hiztegia.append(doinu_hiztegia)
 
@@ -106,7 +113,7 @@ def _eskuratu_soinu_urlak(doinu_url_parseatua):
         doinu_izena = ''
         mp3_url = ''
         midi_url = ''
-        spans = ['']
+        spans = []
             
     return {'title': doinu_izena, 'mp3_url': mp3_url, 'midi_url': midi_url, 'metadata': spans}
 
@@ -128,5 +135,28 @@ def eskuratu_doinu_urlko_soinulinkak(doinu_header):
     return doinu_hiztegia
 
 #%%
+
+
+#%%
+
+# =============================================================================
+# response = requests.get(doinutegia_page)
+# 
+# #%%
+# 
+# soup = BeautifulSoup(response.text, "html.parser")
+# 
+# #%% 
+# 
+# audio_files = soup.findAll('audio')
+# 
+# #%%
+# 
+# page_headers = soup.findAll('h4')
+# 
+# h4 = page_headers
+# =============================================================================
+# for each h4 
+
 
 #eskuratu_doinu_urlko_soinulinkak(h4[1])
