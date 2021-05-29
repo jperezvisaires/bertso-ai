@@ -4,49 +4,54 @@ Created on Sat May 15 12:47:38 2021
 
 @author: kerma
 """
+#%%
 import urllib
 import os
 from bs4 import BeautifulSoup
 import requests
 import urllib.request
 import time
-import functools
 
+#%%
 
-
-def eskuratu_doinuen_metadatuak():
+def eskuratu_doinuen_metadatuak(last_page_number = 3162):
     
-    numbering_urls = list(range(0,3162, 50))
-
-    base_doinu_url = 'https://bdb.bertsozale.eus/web/doinutegia/emaitzak?bilatu=&izena=&hidden_izena=&mota=0&sortzailea=&hidden_sortzailea=&bertsolaria=&hidden_bertsolaria=&jasotzailea=&hidden_jasotzailea=&jasoa=&hidden_jasoa=&urtea=&kriterioak_gorde=51&per_page='
-    
+    numbering_urls = list(range(0,last_page_number, 50))#
     
     master_doinutegi_hiztegia = []
+
     
-    for url_number in numbering_urls:
+    orrialdeen_metadatuak = list(map(eskuratu_orrialdeko_metadatuak, numbering_urls))
+    
+    
+    for orrialde in enumerate(orrialdeen_metadatuak):
         
-        doinutegia_page = base_doinu_url + str(url_number)
-        
-        print('url number is:', url_number)
-        time.sleep(1)
-        
-        response = requests.get(doinutegia_page)
-
-        soup = BeautifulSoup(response.text, "html.parser")
-        
-        page_headers = soup.findAll('h4')
-        
-        doinu_hiztegia = list(map(eskuratu_doinu_urlko_soinulinkak, page_headers))
-        
-        doinu_hiztegia = [hiztegia for hiztegia in doinu_hiztegia if type(hiztegia) is dict]
-        # First one is set, rest is dict, remove first (or the set's)
-        # functools.reduce(lambda a,b: a.append(b), doinu_hiztegia)
-        
-        master_doinutegi_hiztegia.append(doinu_hiztegia)
-
-    return master_doinutegi_hiztegia
+        master_doinutegi_hiztegia.extend(orrialde[1])
 
 
+    return master_doinutegi_hiztegia #master_doinutegi_hiztegia
+
+def eskuratu_orrialdeko_metadatuak(url_number):
+    
+    base_doinu_url = 'https://bdb.bertsozale.eus/web/doinutegia/emaitzak?bilatu=&izena=&hidden_izena=&mota=0&sortzailea=&hidden_sortzailea=&bertsolaria=&hidden_bertsolaria=&jasotzailea=&hidden_jasotzailea=&jasoa=&hidden_jasoa=&urtea=&kriterioak_gorde=51&per_page='
+
+    doinutegia_page = base_doinu_url + str(url_number)
+    
+    print('url number is:', url_number)
+    time.sleep(1)
+    
+    response = requests.get(doinutegia_page)
+
+    soup = BeautifulSoup(response.text, "html.parser")
+    
+    page_headers = soup.findAll('h4')
+    
+    doinu_hiztegia = list(map(eskuratu_doinu_urlko_soinulinkak, page_headers))
+    
+    doinu_hiztegia = [hiztegia for hiztegia in doinu_hiztegia if type(hiztegia) is dict]
+    # First one is set, rest is dict, remove first (or the set's)
+    
+    return doinu_hiztegia
 
 
 
