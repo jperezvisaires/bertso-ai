@@ -1,8 +1,9 @@
 import h5py
+import numpy as np
 import requests
-import mido
-
-from MIDI.read_midi import mid2arry
+import pretty_midi as midi
+import pypianoroll as piano
+import matplotlib.pyplot as plt
 
 
 def url_to_hdf5(url, counter):
@@ -11,19 +12,27 @@ def url_to_hdf5(url, counter):
     with open("file.mid", "wb") as saveMidFile:
         saveMidFile.write(response.content)
 
-    midi_file = mido.MidiFile("file.mid", clip=True)
-    midi_array = mid2arry(midi_file)
-    array_shape = midi_array.shape
-
-    with h5py.File("doinuak.hdf5", "w") as file:
-        dset = file.create_dataset(name=str(counter), shape=array_shape, dtype="i")
-        print("OK")
+    # with h5py.File("doinuak.hdf5", "w") as file:
+    #     file.create_dataset(name=str(counter), data=piano_roll)
+    #     print("OK")
 
 
 url = "https://bdb.bertsozale.eus/common/file/get/24493"
 
 url_to_hdf5(url, 0)
 
-with h5py.File("doinuak.hdf5", "r") as file:
-    print(file["0"])
+multitrack = piano.read("file.mid")
+resolution = multitrack.resolution
+tempo = multitrack.tempo
+downbeat = multitrack.downbeat.astype(int)
+pianoroll = multitrack.tracks[0].pianoroll
+
+
+# with h5py.File("doinuak.hdf5", "r") as file:
+#     piano_roll = np.array(file["0"])
+
+# print(np.argmax(piano_roll, 0))
+
+# plt.plot(np.argmax(piano_roll, 0))
+# plt.show()
 
