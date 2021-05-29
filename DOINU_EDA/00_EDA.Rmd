@@ -1,0 +1,146 @@
+---
+title: "EDA doinu"
+author: '@klopetx'
+date: "29/5/2021"
+output: html_document
+---
+
+```{r setup, include=FALSE}
+knitr::opts_chunk$set(echo = TRUE)
+```
+
+```{r}
+
+library(here)
+library(ggplot2)
+library(magrittr)
+library(dplyr)
+library(stringr)
+
+theme_set(theme_minimal())
+
+```
+
+
+```{r}
+
+# Using tempo while downloading full list
+
+metadata = read.csv(here::here('SCRAP', 'doinu_meta.csv'), stringsAsFactors = FALSE, )[,2:5]
+
+
+```
+
+```{r}
+
+metadata %<>%  
+  mutate(
+    metadata = str_replace_all(metadata, '\\[|]', '')
+    ) %>% 
+  tidyr::separate(metadata, c('Mota', 'Errima', 'Silabak'), '\',')
+
+  
+
+
+```
+
+
+```{r}
+
+metadata %>% 
+  .[complete.cases(.),] %>% 
+  group_by(Mota) %>%
+  count() %>% 
+  arrange(desc(n)) 
+
+
+```
+```{r}
+
+metadata %>% 
+  .[complete.cases(.),] %>% 
+  group_by(Mota) %>%
+  count() %>% 
+  arrange(desc(n))  %>% 
+  head(15) %>% 
+  tidyr::separate(Mota, into = c('Mota', 'Sinonimoa'),  '/') %>% 
+  {ggplot(., aes(factor(Mota,levels = .$Mota, ordered = TRUE), n)) +
+  geom_bar(stat = 'identity') +
+  #geom_text(label = Mota) +
+  xlab('')  +
+  ylab('Cuantity')  +
+  theme(axis.text.x = element_text(face = "bold", angle = 90, size = 7))
+    }
+
+```
+
+
+```{r}
+
+
+zortziko_txiki = filter(metadata, Mota == "'Zortziko txikia (hg) / Lau puntuko txikia (ip)")
+
+
+
+```
+
+```{r}
+
+
+
+zortziko_txiki %>% 
+  group_by(Silabak) %>% 
+  count() %>% 
+  arrange(desc(n )) %>% 
+  head(15) %>% 
+  {ggplot(., aes (factor(Silabak,levels = .$Silabak, ordered = TRUE), n)) + 
+  geom_bar(stat = 'identity') +
+      xlab('')
+    
+    }
+
+
+
+```
+
+```{r}
+
+zazpi_sei = str_detect(zortziko_txiki$Silabak, '7/6')
+
+
+zortziko_txiki = zortziko_txiki[zazpi_sei,] 
+
+
+table(zortziko_txiki$Errima)
+```
+
+```{r}
+zortziko_txiki %>% 
+  group_by(Errima) %>% 
+  count() %>% 
+  arrange(desc(n )) %>% 
+  head(15) %>% 
+  {ggplot(., aes (factor(Errima,levels = .$Errima, ordered = TRUE), n)) + 
+  geom_bar(stat = 'identity') +
+      xlab('')
+    
+    }
+
+```
+
+```{r}
+
+abedeeh = str_detect(zortziko_txiki$Errima, 'ABDE')
+
+
+zortziko_txiki = zortziko_txiki[abedeeh,] 
+
+```
+
+
+```{r}
+
+write.table(zortziko_txiki, here::here('SCRAP', 'zortziko_txiki.csv'), row.names = FALSE )
+
+```
+
