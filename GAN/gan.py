@@ -1,5 +1,8 @@
 import tensorflow as tf
-from tensorflow.keras import Model, metrics
+from tensorflow.keras import Model, metrics, callbacks, utils
+import pypianoroll as piano
+import numpy as np
+from imageio import imwrite
 
 
 class GAN(Model):
@@ -72,3 +75,47 @@ class GAN(Model):
             "d_loss": self.d_metric.result(),
             "g_loss": self.g_metric.result(),
         }
+
+
+class GANMonitor(callbacks.Callback):
+    def __init__(self, num_doinu=1, latent_dim=64):
+        self.num_doinu = num_doinu
+        self.latent_dim = latent_dim
+
+    def on_epoch_end(self, epoch, logs=None):
+        random_latent_vectors = tf.random.normal(
+            shape=(self.num_doinu, self.latent_dim)
+        )
+        generated_doinuak = self.model.generator(random_latent_vectors)
+        generated_doinuak.numpy()
+
+        for i in range(self.num_doinu):
+            doinu = generated_doinuak[i]
+            tempo = doinu[:, :, 0] * 300
+            tempo = np.rint(tempo).astype(int)
+            tempo = np.where(tempo < 30, 30, tempo)
+            imwrite("tempo_{}.png".format(i), tempo)
+            tempo = np.reshape(tempo, (4096,))
+
+            downbeat = doinu[:, :, 1]
+            imwrite("downbeat_{}.png".format(i), downbeat)
+            downbeat = np.reshape(downbeat, (4096,))
+            downbeat = np.rint(downbeat).astype(int).astype(bool)
+
+            piano = doinu[:, :, 2] * 127
+            piano = np.rint(piano_roll).astype(int)
+            imwrite("piano_{}.png".format(i), piano_roll)
+            piano = np.reshape(piano_roll, (4096,))
+            piano_roll = utils.to_categorical(piano_roll, 128)
+            track = piano.StandardTrack(
+                name="Grand Piano", program=0, is_drum=False, pianoroll=piano_roll,
+            )
+            multitrack = piano.Multitrack(
+                name=None,
+                resolution=24,
+                tempo=tempo,
+                downbeat=downbeat,
+                tracks=[track],
+            )
+            piano.write("doinu_{}.mid".format(i), multitrack)
+
