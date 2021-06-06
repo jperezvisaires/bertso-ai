@@ -1,7 +1,6 @@
 import h5py
-from h5py._hl import dataset
 import numpy as np
-import matplotlib.pyplot as plt
+import tensorflow as tf
 
 
 def read_hdf5(counter):
@@ -11,24 +10,25 @@ def read_hdf5(counter):
         downbeat = np.array(file[str(counter) + "/downbeat"]).astype(int)
         piano_roll = np.array(file[str(counter) + "/piano_roll"])
 
-    minus_array = np.zeros(shape=(3864 - piano_roll.shape[0], 1)) - 1
+    zeros_array = np.zeros(shape=(4096 - piano_roll.shape[0], 1))
 
     tempo = np.reshape(tempo, (tempo.shape[0], 1)) / 300
-    tempo = np.concatenate((tempo, minus_array))
+    tempo = np.concatenate((tempo, zeros_array))
 
     downbeat = np.reshape(downbeat, (downbeat.shape[0], 1))
-    downbeat = np.concatenate((downbeat, minus_array))
+    downbeat = np.concatenate((downbeat, zeros_array))
 
     piano_roll = np.argmax(piano_roll, axis=1)
     piano_roll = np.reshape(piano_roll, (piano_roll.shape[0], 1)) / 127
-    piano_roll = np.concatenate((piano_roll, minus_array))
+    piano_roll = np.concatenate((piano_roll, zeros_array))
 
     midi = np.concatenate((tempo, downbeat, piano_roll), axis=-1)
+    midi = np.reshape(midi, (64, 64, 3))
 
     return midi
 
 
-def get_dataset():
+def get_dataset(batch_size, seed):
 
     with h5py.File("doinuak.hdf5", "r") as file:
         counters = list(file.keys())
@@ -47,9 +47,10 @@ def get_dataset():
             midi = np.reshape(midi, (1, *midi.shape))
             dataset = np.append(dataset, midi, axis=0)
 
+    dataset = tf.convert_to_tensor(dataset, dtype=tf.float32)
+    dataset = tf.data.Dataset.from_tensor_slices(dataset)
+    dataset = dataset.shuffle(buffer_size=batch_size * 8, seed=seed)
+    dataset = dataset.batch(batch_size)
+
     return dataset
-
-
-dataset_midi = get_dataset()
-print(dataset_midi.shape)
 
