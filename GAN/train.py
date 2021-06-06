@@ -12,13 +12,14 @@ from gan import GAN
 
 batch_size = 16
 seed = 42
-latent_dim = 256
+latent_dim = 64
 epochs = 50
 
 
 dataset = get_dataset(batch_size, seed)
 discriminator = get_discriminator()
 generator = get_generator(latent_dim)
+generator.summary()
 gan = GAN(discriminator=discriminator, generator=generator, latent_dim=latent_dim,)
 
 gan.compile(
