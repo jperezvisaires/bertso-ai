@@ -1,1 +1,5 @@
 *.mp3
+*.mid
+*.png
+/MIDI/IMAGES/
+/MIDI/MIDIS/

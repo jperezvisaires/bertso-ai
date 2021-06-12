@@ -7,7 +7,7 @@ from tensorflow.keras.losses import BinaryCrossentropy
 
 from dataset import get_dataset
 from models import get_discriminator, get_generator
-from gan import GAN
+from gan import GAN, GANMonitor
 
 
 batch_size = 16
@@ -28,5 +28,6 @@ gan.compile(
     loss_function=BinaryCrossentropy(),
 )
 
-gan.fit(dataset, epochs=epochs)
-
+gan.fit(
+    dataset, epochs=epochs, callbacks=[GANMonitor(num_doinu=1, latent_dim=latent_dim)]
+)

@@ -67,7 +67,7 @@ def hdf5_to_midi(counter):
     multitrack = piano.Multitrack(
         name=None, resolution=24, tempo=tempo, downbeat=downbeat, tracks=[track],
     )
-    piano.write("file_new.mid", multitrack)
+    piano.write("generated_doinu.mid", multitrack)
 
 
 def get_hdf5(url_list):
