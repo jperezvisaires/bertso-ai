@@ -10,7 +10,7 @@ from models import get_discriminator, get_generator
 from gan import GAN, GANMonitor
 
 
-batch_size = 16
+batch_size = 8
 seed = 42
 latent_dim = 64
 epochs = 50

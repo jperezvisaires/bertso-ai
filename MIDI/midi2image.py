@@ -43,7 +43,7 @@ def get_notes(notes_to_parse):
     return {"start": start, "pitch": notes, "dur": durations}
 
 
-def midi_to_image(midi_path, repetitions_max):
+def midi_to_image(midi_path, image_path, hdf5_name, repetitions_max):
     mid = converter.parse(midi_path)
     instruments = instrument.partitionByInstrument(mid)
     data = {}
@@ -84,6 +84,7 @@ def midi_to_image(midi_path, repetitions_max):
             pitchs = values["pitch"]
             durs = values["dur"]
             starts = values["start"]
+            non_empty = False
 
             for i in range(prev_index, len(pitchs)):
                 pitch = pitchs[i]
@@ -99,6 +100,7 @@ def midi_to_image(midi_path, repetitions_max):
                             matrix[
                                 pitch - lowerBoundNote, j - index * maxSongLength
                             ] = 255
+                            non_empty = True
 
                 else:
                     prev_index = i
@@ -107,13 +109,16 @@ def midi_to_image(midi_path, repetitions_max):
             doinu_path = midi_path.split("/")[-1].replace(
                 ".mid", f"_{instrument_name}_{index}.png"
             )
-            image_path = os.path.join("IMAGES", doinu_path)
-            imwrite(image_path, matrix)
+            image_path = os.path.join(image_path, doinu_path)
             counter = midi_path.split("_")[1][:-4]
+            matrix = matrix.astype(np.uint8)
 
-            with h5py.File("doinuak.hdf5", "a") as file:
-                group = file.create_group(name=str(counter))
-                group.create_dataset(name="matrix", data=matrix, compression="lzf")
+            if non_empty:
+                imwrite(image_path, matrix)
+
+                with h5py.File("{}.hdf5".format(hdf5_name), "a") as file:
+                    group = file.create_group(name=str(counter))
+                    group.create_dataset(name="matrix", data=matrix, compression="lzf")
 
             index += 1
             repetitions += 1

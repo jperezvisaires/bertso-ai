@@ -2,7 +2,7 @@ from PIL import Image
 import numpy as np
 from music21 import instrument, note, chord, stream
 
-lowerBoundNote = 0
+lowerBoundNote = 32
 
 
 def column2notes(column):

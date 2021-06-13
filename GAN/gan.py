@@ -1,6 +1,7 @@
+import os
+
 import tensorflow as tf
 from tensorflow.keras import Model, metrics, callbacks, utils
-import pypianoroll as piano
 import numpy as np
 from imageio import imwrite
 
@@ -90,32 +91,8 @@ class GANMonitor(callbacks.Callback):
         generated_doinuak.numpy()
 
         for i in range(self.num_doinu):
-            doinu = generated_doinuak[i]
-            tempo = doinu[:, :, 0] * 300
-            tempo = np.rint(tempo).astype(int)
-            tempo = np.where(tempo < 30, 30, tempo)
-            imwrite("tempo_{}.png".format(i), tempo)
-            tempo = np.reshape(tempo, (4096,))
-
-            downbeat = doinu[:, :, 1]
-            imwrite("downbeat_{}.png".format(i), downbeat)
-            downbeat = np.reshape(downbeat, (4096,))
-            downbeat = np.rint(downbeat).astype(int).astype(bool)
-
-            piano = doinu[:, :, 2] * 127
-            piano = np.rint(piano_roll).astype(int)
-            imwrite("piano_{}.png".format(i), piano_roll)
-            piano = np.reshape(piano_roll, (4096,))
-            piano_roll = utils.to_categorical(piano_roll, 128)
-            track = piano.StandardTrack(
-                name="Grand Piano", program=0, is_drum=False, pianoroll=piano_roll,
-            )
-            multitrack = piano.Multitrack(
-                name=None,
-                resolution=24,
-                tempo=tempo,
-                downbeat=downbeat,
-                tracks=[track],
-            )
-            piano.write("doinu_{}.mid".format(i), multitrack)
+            matrix = np.array(generated_doinuak[i])
+            matrix = matrix.astype(np.uint8) * 255
+            image_path = os.path.join("OUTPUT", "doinu_{}.png".format(i))
+            imwrite(image_path, matrix)
 

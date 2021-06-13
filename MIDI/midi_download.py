@@ -23,10 +23,15 @@ def urls_to_midis(counter, url):
         print("ERROR")
 
 
-def midis_to_images(midi_path):
+def midis_to_images(midi_path, image_path, hdf5_name):
 
     for doinu in os.listdir(midi_path):
-        midi_to_image(os.path.join(midi_path, doinu), 1)
+
+        try:
+            midi_to_image(os.path.join(midi_path, doinu), image_path, hdf5_name, 1)
+
+        except:
+            print("Bad MIDI")
 
 
 def download_midis(url_list):
@@ -39,6 +44,7 @@ def download_midis(url_list):
 
 download = False
 create_images = True
+create_bach = True
 
 if download:
     df = pd.read_csv("zortziko_txiki_zuzen.csv", sep=",")
@@ -46,4 +52,7 @@ if download:
     download_midis(url_list)
 
 if create_images:
-    midis_to_images("MIDIS")
+    midis_to_images("MIDIS", "IMAGES", "doinuak")
+
+if create_bach:
+    midis_to_images("MIDIS_BACH", "IMAGES_BACH", "bach")

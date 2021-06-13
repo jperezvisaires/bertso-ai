@@ -3,7 +3,7 @@ import numpy as np
 import tensorflow as tf
 
 
-def read_hdf5(counter):
+def read_hdf5_old(counter):
 
     with h5py.File("doinuak.hdf5", "r") as file:
         tempo = np.array(file[str(counter) + "/tempo"])
@@ -26,6 +26,16 @@ def read_hdf5(counter):
     midi = np.reshape(midi, (64, 64, 3))
 
     return midi
+
+
+def read_hdf5(counter):
+
+    with h5py.File("doinuak.hdf5", "r") as file:
+        matrix = np.array(file[str(counter) + "/matrix"])
+
+    matrix = np.reshape(matrix, (64, 512, 1)) / 255
+
+    return matrix
 
 
 def get_dataset(batch_size, seed):
