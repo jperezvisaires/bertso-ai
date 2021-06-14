@@ -28,19 +28,24 @@ How does this look like? Well lets take a look of how a monder bertso saio looks
 
 # Doinus: creation and characteristics
 
-Doinus are transmitted from generation to generation, and it is very important for bertsolaris to know them well, because they need to use the doinu suggested by the **gaijartzaile** (moderator) or other bertsolaris .
+Doinus are transmitted from generation to generation, and it is very important for bertsolaris to know them well, because they need to use the doinu suggested by the **gaijartzaile** (moderator) or the other bertsolaris to sing their bertsoz.
 
 ## How are doinus created?
 
 ## Can we improvise over the improvisation?
 
-The cornerstone of a bertso is the improvisation. Bertsoz are like rap, the [batalla de gallos] happens on the fly, there is no script to follow. However, the base, the doinu, is already known by everyone, it is something fixed, rigid.
+Bertsoz are like rap, the [batalla de gallos] happens on the fly, there is no script to follow. This means the abbility of the bertsolari to improvise becomes the cornerstone of the bertso. However, the base, the doinu, is already known by everyone, it is something fixed, rigid.
 
-Which is a pity? Isnt it? If improvisation is part of the great art of the bertsolari... Why not providing an improvised doinu so that bertso experience becomes even more challenging and unique?
+Which is a pity? Isn't it? If improvisation is part of the great art of the bertsolari... Why not providing an improvised doinu so that bertso experience becomes even more challenging and unique?
 
-With these thoughts in mind, and with the
+With these thoughts in mind, and with the newly adquiered Deep Learning skillset, @jperezvisaires and @klopetx had an instant match in our mind.
 
-Could bertolarsim be revolutionized with the use of AI? Could it help and motivate the
+If there was anything that could create doinus by itself... that had to be a Generative Adversarial Network.
+
+Could bertolarsim be revolutionized with the use of AI? 
+
+Well... maybe not that much, but it was worth it to give it a try.
+
 
 ## GANS where technology and tradition (could) meet
 
@@ -49,14 +54,40 @@ With the insightful courses we had during the SaturdayAI lessons, we learned abo
 
 The quesion at this point was, could the magic of generative adversarial networks used to create different things such as images, [filter etc etc] to create new doinus?
 
-Easy peassy lemon squeeze isn't it?
+What did we need for that purpose?
 
-# But first show me the data
+# Gathering the data
+
+Fortunetly for us (and for the basque kulture) there exists a entity, Bertsozale Elkartea, who has a webpage that includes all the known doinus, around 3000, with their meta-data included. It is in basque, but just in case you wanted to give it a look. [https://bdb.bertsozale.eus/web/doinutegia/emaitzak?bilatu=&izena=&hidden_izena=&mota=0&sortzailea=&hidden_sortzailea=&bertsolaria=&hidden_bertsolaria=&jasotzailea=&hidden_jasotzailea=&jasoa=&hidden_jasoa=&urtea=&kriterioak_gorde=1]. 
+And well... you know what they say right?  It's easier to ask forgiveness than get permission... 
+So... We scrapped the web.
+First we downloaded the metadata of the doinus. We made a selection of the most used ones considering the number of syllables and type, and we donwloaded the 'Zortziko/Txiki' ones that had 7 syllables in the first berse followed by 6 in the second.
+
+## Midi format
+
+But wait a minute, donwload what exactly?
+Fortunetly for us, we had the chance to download the doinus in either mp3 or midi formats.
+
+"Midi? What's that? I know about mp3 but midi reminds me of how french people names the mid day..."
+
+MIDI (Musical Instrument Digital Interface) is a technological standard used to transfer up to 16 information channels. It transfers messages of events that include musical notation , tone and sp)
 
 
 
-## Web scrapping
+## Feeding our little generative monster
 
+Once the ~~lunch~~ data was ready, we just needed to feed the ~~troll~~ GAN.
+
+We could just use the midi as input...
+Well, we tryed...
+...we have some problems...
+... and we gave up.
+You know, everyone uses Deep Learning with images, why should we do otherwise?
+
+So instead of using midis directly, we created images with them. 
+Such as this one [meter imagen]
+
+And then 
 
 ## Finding the right data
 
