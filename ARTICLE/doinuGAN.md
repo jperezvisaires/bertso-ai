@@ -10,9 +10,9 @@ Para escribir el borrador os recomiendo seguir varias pautas:
 
 # Can AI boost tradition?
 
-Tradition, from latin tradere, to transmit, is act of sharing a behavior or belief from generation to generation. And as such, this heritage becomes part of our ourselves, our identity.
+Tradition, from latin tradere, to transmit, is the act of sharing a behavior or belief from generation to generation. And as such, this heritage becomes part of our ourselves, our identity.
 
-Innovation, in contrast, is the introduction of new ideas, of new ways or approaches that change how things were done before. This new approaches are ofthe seen as a threaten to tradition, as the adoption of new methods or behaviors tends to change way that things were done, the tradition.
+Innovation, in contrast, is the introduction of new ideas, of new ways or approaches that change how things were done before. This new approaches are often seen as a threat to tradition, as the adoption of new methods or behaviors tends to change the way that things were done, the tradition.
 
 However, do things need to be always like that? Can innovation be used to leverage and spread tradition among the society?
 
@@ -65,12 +65,13 @@ First we downloaded the metadata of the doinus. We made a selection of the most 
 
 ## Midi format
 
-But wait a minute, donwload what exactly?
+"But wait a minute, donwload what exactly?"
+
 Fortunetly for us, we had the chance to download the doinus in either mp3 or midi formats.
 
 "Midi? What's that? I know about mp3 but midi reminds me of how french people names the mid day..."
 
-MIDI (Musical Instrument Digital Interface) is a technological standard used to transfer up to 16 information channels. It transfers messages of events that include musical notation , tone and sp)
+MIDI (Musical Instrument Digital Interface) is a technological standard used to transfer up to 16 information channels. It transfers messages of events that include musical notation, tone and speed among other things. Basically, this files explain what notes are played, when, for how long and how loud. 
 
 
 
@@ -78,27 +79,30 @@ MIDI (Musical Instrument Digital Interface) is a technological standard used to 
 
 Once the ~~lunch~~ data was ready, we just needed to feed the ~~troll~~ GAN.
 
-We could just use the midi as input...
-Well, we tryed...
-...we have some problems...
-... and we gave up.
+And our experience of using midi directly for the GAN is perfectly summarized by the following poem:
+
+We used the midi as input
+Well, at least we tryed
+we faced some problems
+and hence, gave up.
+
+
 You know, everyone uses Deep Learning with images, why should we do otherwise?
 
-So instead of using midis directly, we created images with them. 
-Such as this one [meter imagen]
+So, instead of using midis directly, we created images with them, cause, due to the nature of the midi files, it is quite simple to visualize/represent them as images. Such as this one [meter imagen]
 
-And then 
+Once at the image domain it was easier to work with the problem, as there is much more content dealing with image and training of nets.
 
-## Finding the right data
+# GAN structure
+
+Let's take a breath for a second. We started talking about how well GANs are supposed to work in the creation of new unheared soinus, but what are GANs exactly?
+
+GANs were introduced in the work [ ] and are essentially two separate models that are trained together with an opposed purpose. One of the models, the generative, generates new data samples, the second model, the discriminative, tells whether the data is original or it was created by the generative model. Due to their behavior, they are typicall compared to a counterfeiter and a cop. The counterfeiter keeps improving the quality of the works while the cop gets better at detecting which ones are real or faked.
+
+During the training process, the counterfeiter gets much better on creating new data 
+[]
 
 
-# Okay, so how is music represented?
-
-## Midi
-
-## Images
 
 # Let's do the magic
-
-## Fitting a GAN with images
 
