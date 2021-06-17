@@ -3,35 +3,38 @@ from tensorflow.keras import layers, Model
 
 
 def get_discriminator():
-    inputs = layers.Input(shape=(64, 512, 1))
+    inputs = layers.Input(shape=(32, 32, 1))
     x = Conv2D(inputs, filters=64, kernel_size=3, strides=2, dropout=0.5)
     x = Conv2D(x, filters=64, kernel_size=3, strides=2, dropout=0.5)
-    x = Conv2D(x, filters=64, kernel_size=3, strides=2, dropout=0.5)
     x = layers.Flatten()(x)
-    x = layers.Dropout(0.25)(x)
+    x = layers.BatchNormalization()(x)
     x = layers.Dense(1, activation="sigmoid")(x)
     outputs = x
 
     return Model(inputs=inputs, outputs=outputs, name="discriminator")
 
 
-def get_generator(latent_dim):
+def get_generator(latent_dim, num_proto):
     inputs = layers.Input(shape=(latent_dim))
-    x = layers.Dense(8 * 64 * latent_dim)(inputs)
-    x = layers.Reshape((8, 64, latent_dim))(x)
-    x = Conv2DTrans(x, filters=64, kernel_size=5, strides=2, dropout=0.0)
-    x = Conv2DTrans(x, filters=64, kernel_size=5, strides=1, dropout=0.0)
-    x = Conv2DTrans(x, filters=64, kernel_size=5, strides=1, dropout=0.0)
-    x = Conv2DTrans(x, filters=64, kernel_size=5, strides=1, dropout=0.0)
-    x = Conv2DTrans(x, filters=128, kernel_size=5, strides=2, dropout=0.0)
-    x = Conv2DTrans(x, filters=128, kernel_size=5, strides=1, dropout=0.0)
-    x = Conv2DTrans(x, filters=128, kernel_size=5, strides=1, dropout=0.0)
-    x = Conv2DTrans(x, filters=128, kernel_size=5, strides=1, dropout=0.0)
-    x = Conv2DTrans(x, filters=256, kernel_size=5, strides=2, dropout=0.0)
-    x = Conv2DTrans(x, filters=256, kernel_size=5, strides=1, dropout=0.0)
-    x = Conv2DTrans(x, filters=256, kernel_size=5, strides=1, dropout=0.0)
-    x = Conv2DTrans(x, filters=256, kernel_size=5, strides=1, dropout=0.0)
-    x = layers.Conv2D(filters=1, kernel_size=7, padding="same", activation="sigmoid")(x)
+    x = layers.Dense(4 * 4 * num_proto)(inputs)
+    x = layers.LeakyReLU(alpha=0.2)(x)
+    x = layers.Reshape((4, 4, num_proto))(x)
+    x = Conv2DTrans(x, filters=64, kernel_size=2, strides=2, dropout=0.0)
+    x = layers.Dense(64)(x)
+    x = layers.LeakyReLU(alpha=0.2)(x)
+    x = layers.Dense(64)(x)
+    x = layers.LeakyReLU(alpha=0.2)(x)
+    x = Conv2DTrans(x, filters=128, kernel_size=4, strides=2, dropout=0.0)
+    x = layers.Dense(128)(x)
+    x = layers.LeakyReLU(alpha=0.2)(x)
+    x = layers.Dense(128)(x)
+    x = layers.LeakyReLU(alpha=0.2)(x)
+    x = Conv2DTrans(x, filters=256, kernel_size=6, strides=2, dropout=0.0)
+    x = layers.Dense(256)(x)
+    x = layers.LeakyReLU(alpha=0.2)(x)
+    x = layers.Dense(256)(x)
+    x = layers.LeakyReLU(alpha=0.2)(x)
+    x = layers.Conv2D(filters=1, kernel_size=8, padding="same", activation="sigmoid")(x)
     outputs = x
 
     return Model(inputs=inputs, outputs=outputs, name="generator")

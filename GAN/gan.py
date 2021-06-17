@@ -7,6 +7,10 @@ from imageio import imwrite
 
 
 class GAN(Model):
+    """
+    https://keras.io/examples/generative/dcgan_overriding_train_step/
+    """
+
     def __init__(self, discriminator, generator, latent_dim):
         super(GAN, self).__init__()
         self.discriminator = discriminator
@@ -26,6 +30,7 @@ class GAN(Model):
         return [self.d_metric, self.g_metric]
 
     def train_step(self, real_doinuak):
+        real_doinuak = real_doinuak / 255.0
         # Sample random points in the latent space.
         batch_size = tf.shape(real_doinuak)[0]
         random_latent_vectors = tf.random.normal(shape=(batch_size, self.latent_dim))
@@ -90,9 +95,12 @@ class GANMonitor(callbacks.Callback):
         generated_doinuak = self.model.generator(random_latent_vectors)
         generated_doinuak.numpy()
 
+        folder_path = os.path.join("OUTPUT", "Epoch-{}".format(epoch))
+
         for i in range(self.num_doinu):
             matrix = np.array(generated_doinuak[i])
-            matrix = matrix.astype(np.uint8) * 255
-            image_path = os.path.join("OUTPUT", "doinu_{}.png".format(i))
+            matrix = matrix * 255.0
+            matrix = matrix.astype(np.uint8)
+            image_path = os.path.join(folder_path, "doinu_{}.png".format(i))
             imwrite(image_path, matrix)
 

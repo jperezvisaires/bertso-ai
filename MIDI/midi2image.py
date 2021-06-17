@@ -1,10 +1,7 @@
-import sys
 import os
-import json
 
 from music21 import converter, instrument, note, chord
 import numpy as np
-import h5py
 from imageio import imwrite
 
 
@@ -43,7 +40,7 @@ def get_notes(notes_to_parse):
     return {"start": start, "pitch": notes, "dur": durations}
 
 
-def midi_to_image(midi_path, image_path, hdf5_name, repetitions_max):
+def midi_to_image(midi_path, image_path):
     mid = converter.parse(midi_path)
     instruments = instrument.partitionByInstrument(mid)
     data = {}
@@ -63,18 +60,20 @@ def midi_to_image(midi_path, image_path, hdf5_name, repetitions_max):
         notes_to_parse = mid.flat.notes
         data["instrument_0".format(i)] = get_notes(notes_to_parse)
 
-    resolution = 0.125
+    resolution = 1 / 16
 
     for instrument_name, values in data.items():
         # https://en.wikipedia.org/wiki/Scientific_pitch_notation#Similar_systems
         upperBoundNote = 128
         lowerBoundNote = 0
-        maxSongLength = 512
+        maxSongLength = 1024
 
         index = 0
         prev_index = 0
         repetitions = 0
-        while repetitions < int(repetitions_max):
+        non_empty = True
+
+        while non_empty:
 
             if prev_index >= len(values["pitch"]):
                 break
@@ -106,23 +105,19 @@ def midi_to_image(midi_path, image_path, hdf5_name, repetitions_max):
                     prev_index = i
                     break
 
+            matrix = np.argmax(matrix, axis=0)
+            matrix = matrix.astype(float)
+            matrix = (matrix / 128.0) * 255.0
+            matrix = np.reshape(matrix, (32, 32))
+            matrix = matrix.astype(np.uint8)
+
             doinu_path = midi_path.split("/")[-1].replace(
                 ".mid", f"_{instrument_name}_{index}.png"
             )
-            image_path = os.path.join(image_path, doinu_path)
-            counter = midi_path.split("_")[1][:-4]
-            matrix = matrix.astype(np.uint8)
+            image_filepath = os.path.join(image_path, doinu_path)
 
             if non_empty:
-                imwrite(image_path, matrix)
-
-                with h5py.File("{}.hdf5".format(hdf5_name), "a") as file:
-                    group = file.create_group(name=str(counter))
-                    group.create_dataset(name="matrix", data=matrix, compression="lzf")
+                imwrite(image_filepath, matrix)
 
             index += 1
             repetitions += 1
-
-
-# midi_path = sys.argv[1]
-# midi2image(midi_path)
