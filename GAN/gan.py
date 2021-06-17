@@ -5,6 +5,8 @@ from tensorflow.keras import Model, metrics, callbacks, utils
 import numpy as np
 from imageio import imwrite
 
+from image2midi import image_to_midi
+
 
 class GAN(Model):
     """
@@ -89,18 +91,32 @@ class GANMonitor(callbacks.Callback):
         self.latent_dim = latent_dim
 
     def on_epoch_end(self, epoch, logs=None):
-        random_latent_vectors = tf.random.normal(
-            shape=(self.num_doinu, self.latent_dim)
-        )
-        generated_doinuak = self.model.generator(random_latent_vectors)
-        generated_doinuak.numpy()
 
-        folder_path = os.path.join("OUTPUT", "Epoch-{}".format(epoch))
+        if (epoch + 1) % 10 == 0:
+            random_latent_vectors = tf.random.normal(
+                shape=(self.num_doinu, self.latent_dim)
+            )
+            generated_doinuak = self.model.generator(random_latent_vectors)
+            generated_doinuak.numpy()
 
-        for i in range(self.num_doinu):
-            matrix = np.array(generated_doinuak[i])
-            matrix = matrix * 255.0
-            matrix = matrix.astype(np.uint8)
-            image_path = os.path.join(folder_path, "doinu_{}.png".format(i))
-            imwrite(image_path, matrix)
+            folder_path = os.path.join("OUTPUT", "Epoch-{:03}".format(epoch + 1))
+            os.makedirs(folder_path, exist_ok=True)
+
+            for i in range(self.num_doinu):
+                matrix = np.array(generated_doinuak[i])
+                matrix = matrix * 255.0
+                image = matrix.astype(np.uint8)
+                image_path = os.path.join(folder_path, "doinu_{:02}.png".format(i + 1))
+                imwrite(image_path, image)
+                matrix = (matrix / 255.0) * 128.0
+                matrix = matrix.astype(np.uint8)
+                matrix = np.reshape(matrix, (1, 1024))
+                matrix = tf.one_hot(
+                    matrix, depth=128, on_value=int(255), off_value=int(0)
+                )
+                matrix = np.transpose(matrix)
+                matrix = matrix.astype(np.uint8)
+                matrix_path = os.path.join(folder_path, "midi_{:02}.png".format(i + 1))
+                imwrite(matrix_path, matrix)
+                image_to_midi(matrix_path)
 

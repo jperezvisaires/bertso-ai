@@ -2,7 +2,7 @@ from PIL import Image
 import numpy as np
 from music21 import instrument, note, chord, stream
 
-lowerBoundNote = 32
+lowerBoundNote = 0
 
 
 def column2notes(column):
@@ -13,7 +13,7 @@ def column2notes(column):
     return notes
 
 
-resolution = 0.125
+resolution = 1 / 16
 
 
 def updateNotes(newNotes, prevNotes):
@@ -26,7 +26,7 @@ def updateNotes(newNotes, prevNotes):
     return res
 
 
-def image2midi(image_path):
+def image_to_midi(image_path):
     with Image.open(image_path) as image:
         im_arr = np.frombuffer(image.tobytes(), dtype=np.uint8)
         try:
@@ -78,9 +78,3 @@ def image2midi(image_path):
     midi_stream = stream.Stream(output_notes)
 
     midi_stream.write("midi", fp=image_path.split("/")[-1].replace(".png", ".mid"))
-
-
-import sys
-
-image_path = sys.argv[1]
-image2midi(image_path)

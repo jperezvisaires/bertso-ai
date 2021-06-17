@@ -4,8 +4,8 @@ from tensorflow.keras import layers, Model
 
 def get_discriminator():
     inputs = layers.Input(shape=(32, 32, 1))
-    x = Conv2D(inputs, filters=64, kernel_size=3, strides=2, dropout=0.5)
-    x = Conv2D(x, filters=64, kernel_size=3, strides=2, dropout=0.5)
+    x = Conv2D(inputs, filters=128, kernel_size=3, strides=2, dropout=0.25)
+    x = Conv2D(x, filters=128, kernel_size=3, strides=2, dropout=0.25)
     x = layers.Flatten()(x)
     x = layers.BatchNormalization()(x)
     x = layers.Dense(1, activation="sigmoid")(x)
@@ -29,12 +29,12 @@ def get_generator(latent_dim, num_proto):
     x = layers.LeakyReLU(alpha=0.2)(x)
     x = layers.Dense(128)(x)
     x = layers.LeakyReLU(alpha=0.2)(x)
-    x = Conv2DTrans(x, filters=256, kernel_size=6, strides=2, dropout=0.0)
+    x = Conv2DTrans(x, filters=256, kernel_size=4, strides=2, dropout=0.0)
     x = layers.Dense(256)(x)
     x = layers.LeakyReLU(alpha=0.2)(x)
     x = layers.Dense(256)(x)
     x = layers.LeakyReLU(alpha=0.2)(x)
-    x = layers.Conv2D(filters=1, kernel_size=8, padding="same", activation="sigmoid")(x)
+    x = layers.Conv2D(filters=1, kernel_size=6, padding="same", activation="sigmoid")(x)
     outputs = x
 
     return Model(inputs=inputs, outputs=outputs, name="generator")
