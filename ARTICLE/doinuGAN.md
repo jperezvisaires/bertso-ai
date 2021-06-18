@@ -22,9 +22,10 @@ Among the various treasures basque culture has manged to keep alive are **bertso
 
 This bertsos are typically sung in front of an audience, and, the **bertsolaris**, the basque rhyme singers, sing about different topics which are provided by the moderator, **gaijartzaile**, while they interact with the rest of bertsolaris (in a rather acid way) in pursue of the public's applause.
 
-How does this look like? Well lets take a look of how a monder bertso saio looks like.
+How does this look like? Well lets take a look of how a modern bertso saio looks like lets take a look to the following video.
 
-[youtube-ko bideoa]
+[![Puntuka, bertsolariak](bertsolariak_.jpg)](https://www.youtube.com/watch?v=mC6YQ9_aVrs)
+
 
 # Doinus: creation and characteristics
 
