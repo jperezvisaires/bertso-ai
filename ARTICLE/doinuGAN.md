@@ -1,12 +1,4 @@
-Para escribir el borrador os recomiendo seguir varias pautas:
 
-    1. Empezad conectando con el lector. Haced preguntas de implicación. Y exponed el tema en un párrafo. (ejemplo)
-    2. Presentad brevemente quienes sois y por qué os motiva este proyecto.
-    3. Enlazar lo anterior con la técnica a través de una historia. Puede ser vuestra misma historia desde que entráis en AI Saturdays, algo personal o cualquier otro ejemplo.
-    4. Explicad de forma ordenada como resolvéis el problema: tipo de problema, datos, exploración, insights, modelo, etc... Lo que habéis aprendido.
-    5. Exponed vuestros resultados.
-    6. Volved a hacer preguntas de implicación y terminar con los pasos futuros del proyecto.
-    7. Añadir link a la ppt, el código en github, la webapp o demo si tenéis..
 
 # Can AI boost tradition?
 
@@ -35,7 +27,7 @@ Doinus are transmitted from generation to generation, and it is very important f
 
 ## Can we improvise over the improvisation?
 
-Bertsoz are like rap, the [batalla de gallos] happens on the fly, there is no script to follow. This means the abbility of the bertsolari to improvise becomes the cornerstone of the bertso. However, the base, the doinu, is already known by everyone, it is something fixed, rigid.
+Bertsoz are like rap, the rap battle happens on the fly, there is no script to follow. This means the abbility of the bertsolari to improvise becomes the cornerstone of the bertso. However, the base, the doinu, is already known by everyone, it is something fixed, rigid.
 
 Which is a pity? Isn't it? If improvisation is part of the great art of the bertsolari... Why not providing an improvised doinu so that bertso experience becomes even more challenging and unique?
 
@@ -61,9 +53,12 @@ Data! Of course.
 
 # Gathering the data
 
-Fortunetly for us (and for the basque kulture) there exists a entity, Bertsozale Elkartea, who has a webpage that includes all the known doinus, around 3000, with their meta-data included. It is in basque, but just in case you wanted to give it a look. [https://bdb.bertsozale.eus/web/doinutegia/emaitzak?bilatu=&izena=&hidden_izena=&mota=0&sortzailea=&hidden_sortzailea=&bertsolaria=&hidden_bertsolaria=&jasotzailea=&hidden_jasotzailea=&jasoa=&hidden_jasoa=&urtea=&kriterioak_gorde=1]. 
-And well... you know what they say right?  It's easier to ask forgiveness than get permission... 
+Fortunetly for us (and for the basque kulture) there exists a entity, Bertsozale Elkartea, who has a webpage that includes all the known doinus, around 3000, with their meta-data included. It is in basque, but just in case you wanted [to give it a look.](https://bdb.bertsozale.eus/web/doinutegia/emaitzak?bilatu=&izena=&hidden_izena=&mota=0&sortzailea=&hidden_sortzailea=&bertsolaria=&hidden_bertsolaria=&jasotzailea=&hidden_jasotzailea=&jasoa=&hidden_jasoa=&urtea=&kriterioak_gorde=1) 
+
+And well... you know what they say right? 
+It's easier to ask forgiveness than get permission... 
 So... We scrapped the web (thank you bertsozale for your work, and sorry for overloading your servers and getting your data wihout formally asking permission).
+
 First we downloaded the metadata of the doinus. We made a selection of the most used ones considering the number of syllables and type, and we donwloaded the 'Zortziko/Txiki' ones that had 7 syllables in the first berse followed by 6 in the second which decreased the list of doinus to around 200.
 
 ## Midi format
@@ -97,7 +92,7 @@ Once at the image domain it was easier to work with the problem, as there is muc
 
 Let's take a breath for a second. We started talking about how well GANs are supposed to work in the creation of new unheared soinus, but what are GANs exactly?
 
-GANs were introduced in the work [https://papers.nips.cc/paper/2014/file/5ca3e9b122f61f8f06494c97b1afccf3-Paper.pdf] and are essentially two separate models that are trained together with an opposed purpose. One of the models, the generative, generates new data samples, the second model, the discriminative, tells whether the data is original or it was created by the generative model. Due to their behavior, they are typicall compared to a counterfeiter and a cop. The counterfeiter keeps improving the quality of the works while the cop gets better at detecting which ones are real or faked.
+GANs were introduced in the work [https://papers.nips.cc/paper/2014/file/5ca3e9b122f61f8f06494c97b1afccf3-Paper.pdf] and are essentially two separate models that are trained together with an opposed purpose. One of the models, the generative, generates new data samples; the second model, the discriminative, tells whether the data is original or it was created by the generative model. Due to their behavior, they are typicall compared to a counterfeiter and a cop. The counterfeiter keeps improving the quality of the works while the cop gets better at detecting which ones are real or faked.
 
 Basically, during the training process, the counterfeiter would get much better on creating new data (in this case images of new possible doinus) while the cop would imrpove on the detection of fake soinus, forcing the improvement of the counterfeiter. At some point, the generative model would be so good at creating doinus that it would become absolutely impossible for the discriminative model to discern among real or fake soinus, meaning we had a model cappable of creating good enough doinus.
 
