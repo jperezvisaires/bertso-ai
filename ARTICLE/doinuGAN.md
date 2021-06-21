@@ -8,7 +8,7 @@ Innovation, in contrast, is the introduction of new ideas, of new ways or approa
 
 However, do things need to be always like that? Can innovation be used to leverage and spread tradition among the society?
 
-## Bertso, doinu and neurri a glimpse of the basque tradition
+### Bertso, doinu and neurri a glimpse of the basque tradition
 
 Among the various treasures basque culture has manged to keep alive are **bertsoak**, improvised verses with **rhyme** that are sung following a **doinu**, a melody, that has to match with certain **neurri**, or verse length.
 
@@ -18,14 +18,9 @@ How does this look like? Well lets take a look of how a modern bertso saio looks
 
 [![Puntuka, bertsolariak](bertsolariak_.jpg)](https://www.youtube.com/watch?v=mC6YQ9_aVrs)
 
+Did you notice that the base used by both of the bertsolari is the same? This base is could doinu(a). Doinus are transmitted from generation to generation, and it is very important for bertsolaris to know them well, because they need to use the doinu suggested by the **gaijartzaile** (moderator) or the other bertsolaris to sing their bertsoz. 
 
-# Doinus: creation and characteristics
-
-Doinus are transmitted from generation to generation, and it is very important for bertsolaris to know them well, because they need to use the doinu suggested by the **gaijartzaile** (moderator) or the other bertsolaris to sing their bertsoz.
-
-## How are doinus created?
-
-## Can we improvise over the improvisation?
+### Can we improvise over the improvisation?
 
 Bertsoz are like rap, the rap battle happens on the fly, there is no script to follow. This means the abbility of the bertsolari to improvise becomes the cornerstone of the bertso. However, the base, the doinu, is already known by everyone, it is something fixed, rigid.
 
@@ -40,7 +35,7 @@ Could bertolarsim be revolutionized with the use of AI?
 Well... maybe not that much, but it was worth to give it a try.
 
 
-# GANS where technology and tradition (could) meet
+## GANS where technology and tradition (could) meet
 
 
 With the insightful courses we had during the SaturdayAI lessons, we learned about the latest innovations on the field of Deep Learning, such as the different architectures, convolutional, recurrent, autoencoder... as well as the different uses such as the reinforcement learning, generative adversarial networks, reinforcement learnning.
@@ -51,7 +46,7 @@ If so, what did we need for that purpose?
 
 Data! Of course.
 
-# Gathering the data
+## Gathering the data
 
 Fortunetly for us (and for the basque kulture) there exists a entity, Bertsozale Elkartea, who has a webpage that includes all the known doinus, around 3000, with their meta-data included. It is in basque, but just in case you wanted [to give it a look.](https://bdb.bertsozale.eus/web/doinutegia/emaitzak?bilatu=&izena=&hidden_izena=&mota=0&sortzailea=&hidden_sortzailea=&bertsolaria=&hidden_bertsolaria=&jasotzailea=&hidden_jasotzailea=&jasoa=&hidden_jasoa=&urtea=&kriterioak_gorde=1) 
 
@@ -61,7 +56,7 @@ So... We scrapped the web (thank you bertsozale for your work, and sorry for ove
 
 First we downloaded the metadata of the doinus. We made a selection of the most used ones considering the number of syllables and type, and we donwloaded the 'Zortziko/Txiki' ones that had 7 syllables in the first berse followed by 6 in the second which decreased the list of doinus to around 200.
 
-## Midi format
+### Midi format
 
 "But wait a minute, donwload what exactly?"
 
@@ -71,7 +66,7 @@ Fortunetly for us, we had the chance to download the doinus in either mp3 or mid
 
 MIDI (Musical Instrument Digital Interface) is a technological standard used to transfer up to 16 information channels. It transfers messages of events that include musical notation, tone and speed among other things. Basically, this files explain what notes are played, when, for how long and how loud. 
 
-## Feeding our little generative monster
+### Feeding our little generative monster
 
 Once the ~~lunch~~ data was ready, we just needed to feed the ~~troll~~ GAN.
 
@@ -88,7 +83,7 @@ So, instead of using midis directly, we created images with them, cause, due to 
 
 Once at the image domain it was easier to work with the problem, as there is much more content dealing with image and training of nets.
 
-# GAN structure
+## GAN structure
 
 Let's take a breath for a second. We started talking about how well GANs are supposed to work in the creation of new unheared soinus, but what are GANs exactly?
 
@@ -100,7 +95,7 @@ Easy peasy lemon squeezy isn't it?
 
 SPOILER: Nothing went as expected.
 
-## Round 1: If what one has to say is not better than silence...
+### Round 1: If what one has to say is not better than silence...
 
 We started to feed our monster (well, monsters actually).
 We waited until the training converged.
@@ -116,11 +111,11 @@ We didn't have many music channels nor doinus. The generator might initially lea
 Lesson: Ensure you have enough data.
 
 
-## Round 2: Damn it! How cares about mixing different doinus? 
+### Round 2: Damn it! How cares about mixing different doinus? 
 
 Lesson: It might happen that more data is not enough data.
 
-## Round 3: Mixing doinus? I'm pretty sure reggae can help us on this
+### Round 3: Mixing doinus? I'm pretty sure reggae can help us on this
 
 
 # Let's do the magic
