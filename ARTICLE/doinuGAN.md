@@ -18,7 +18,7 @@ How does this look like? Well lets take a look of how a modern bertso saio looks
 
 [![Puntuka, bertsolariak](bertsolariak_.jpg)](https://www.youtube.com/watch?v=mC6YQ9_aVrs)
 
-Did you notice that the base used by both of the bertsolari is the same? This base is could doinu(a). Doinus are transmitted from generation to generation, and it is very important for bertsolaris to know them well, because they need to use the doinu suggested by the **gaijartzaile** (moderator) or the other bertsolaris to sing their bertsoz. 
+Did you notice that the base used by both of the bertsolari is the same? This base is called doinu(a). Doinus are transmitted from generation to generation, and it is very important for bertsolaris to know them well, because they need to use the doinu suggested by the **gaijartzaile** (moderator) or the other bertsolaris to sing their bertsoz. 
 
 ### Can we improvise over the improvisation?
 
@@ -66,6 +66,8 @@ Fortunetly for us, we had the chance to download the doinus in either mp3 or mid
 
 MIDI (Musical Instrument Digital Interface) is a technological standard used to transfer up to 16 information channels. It transfers messages of events that include musical notation, tone and speed among other things. Basically, this files explain what notes are played, when, for how long and how loud. 
 
+![Example of a midi.](https://www.startpage.com/av/proxy-image?piurl=https%3A%2F%2Fpatrickdearteaga.com%2Fwp-content%2Fuploads%2F2018%2F08%2Fmidi-format-sequencer.png&sp=1624294725T036f0b5ac5318c1a5dbcd683fccfd52fd030f05213dd6a2c030139115303c3f5)
+
 ### Feeding our little generative monster
 
 Once the ~~lunch~~ data was ready, we just needed to feed the ~~troll~~ GAN.
@@ -79,7 +81,7 @@ and hence, gave up.
 
 You know, everyone uses Deep Learning with images, why should we do otherwise?
 
-So, instead of using midis directly, we created images with them, cause, due to the nature of the midi files, it is quite simple to visualize/represent them as images. Such as this one [meter imagen]
+So, instead of using midis directly, we created images with them, cause, due to the nature of the midi files, it is quite simple to visualize/represent them as images.
 
 Once at the image domain it was easier to work with the problem, as there is much more content dealing with image and training of nets.
 
@@ -87,7 +89,7 @@ Once at the image domain it was easier to work with the problem, as there is muc
 
 Let's take a breath for a second. We started talking about how well GANs are supposed to work in the creation of new unheared soinus, but what are GANs exactly?
 
-GANs were introduced in the work [https://papers.nips.cc/paper/2014/file/5ca3e9b122f61f8f06494c97b1afccf3-Paper.pdf] and are essentially two separate models that are trained together with an opposed purpose. One of the models, the generative, generates new data samples; the second model, the discriminative, tells whether the data is original or it was created by the generative model. Due to their behavior, they are typicall compared to a counterfeiter and a cop. The counterfeiter keeps improving the quality of the works while the cop gets better at detecting which ones are real or faked.
+GANs were introduced [by Goodfellow et. al.](https://papers.nips.cc/paper/2014/file/5ca3e9b122f61f8f06494c97b1afccf3-Paper.pdf) and are essentially two separate models that are trained together with an opposed purpose. One of the models, the generative, generates new data samples; the second model, the discriminative, tells whether the data is original or it was created by the generative model. Due to their behavior, they are typicall compared to a counterfeiter and a cop. The counterfeiter keeps improving the quality of the works while the cop gets better at detecting which ones are real or faked.
 
 Basically, during the training process, the counterfeiter would get much better on creating new data (in this case images of new possible doinus) while the cop would imrpove on the detection of fake soinus, forcing the improvement of the counterfeiter. At some point, the generative model would be so good at creating doinus that it would become absolutely impossible for the discriminative model to discern among real or fake soinus, meaning we had a model cappable of creating good enough doinus.
 
@@ -101,9 +103,9 @@ We started to feed our monster (well, monsters actually).
 We waited until the training converged.
 And we freaked out with the resulting doinus.
 
-[imagen de midi]
 
-Yes, this is an empty midi. Apparently our GAN was that smart that prefferred to remain silent instead saying something worse than the silence...
+
+Yes, an empty midi. Apparently our GAN was that smart that prefferred to remain silent instead saying something worse than the silence...
 
 Why?
 We didn't have many music channels nor doinus. The generator might initially learnt that, by swithing all the pixels off, it could trick the dumb discriminator. However, during the training, at some point, even the dumb discriminator was able to detect that a blank image was not a real doinu, which meant that all the effort made by the generator to produce blank images from noise were now worthless. 
@@ -113,10 +115,22 @@ Lesson: Ensure you have enough data.
 
 ### Round 2: Damn it! How cares about mixing different doinus? 
 
-Lesson: It might happen that more data is not enough data.
+Instead of focusing on a small fraction of the doinus, we took all the database. 
 
-### Round 3: Mixing doinus? I'm pretty sure reggae can help us on this
+Yeap, the whole database with the different neurris, rhymes etc. 
+Everything.
+Goes.
+In.
+
+In addition, we reduced the resolution of the images so that they were less sparse, in order to avoid the problem of the shy gan.
+And we reduced the resolution even more.
+
+And, surprisingly, the magic happened.
+
+[Include link to midi]
 
 
-# Let's do the magic
+## Lessons learned
+
+
 
