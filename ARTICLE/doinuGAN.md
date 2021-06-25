@@ -133,7 +133,7 @@ The amount of data needed to properly train a GAN is a lot more than we had avai
 
 Time is key in training GANs, if the training is stable and there aren't any divergences, the results keep improving with training time, sometimes getting pretty good results as the training goes on.
 
-Simplify the data to be generated and fed to the neural networks as much as possible. Make life easier for your neural networks. Sparse matrices are the devil and should be condensed into a vector if possible, as neural networks love give outputs full of zeroes if available to them.
+Simplify the data to be generated and fed to the neural networks as much as possible. Make life easier for your neural networks. Sparse matrices are the devil and should be condensed into a vector if possible, as neural networks love to give outputs full of zeroes if this are available to them.
 
 
 
